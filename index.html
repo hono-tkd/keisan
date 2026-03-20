@@ -326,6 +326,49 @@ loadStats();
 loadStatus();
 showStart();
 
+function playCorrect(){
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+  const notes = [1100, 880]; // 高→少し低（ピンポン感）
+  
+  notes.forEach((freq, i)=>{
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = "sine";
+    osc.frequency.value = freq;
+
+    gain.gain.setValueAtTime(0.25, ctx.currentTime + i*0.12);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i*0.12 + 0.2);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(ctx.currentTime + i*0.12);
+    osc.stop(ctx.currentTime + i*0.12 + 0.2);
+  });
+}
+
+function playWrong(){
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  osc.type = "square"; // ← ブザー感
+  osc.frequency.setValueAtTime(200, ctx.currentTime);
+  osc.frequency.linearRampToValueAtTime(120, ctx.currentTime + 0.3);
+
+  gain.gain.setValueAtTime(0.3, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+
+  osc.start();
+  osc.stop(ctx.currentTime + 0.3);
+}
+
 /* スタート画面 */
 function showStart(){
   index=0;score=0;results=[];memoryCounter=0;
