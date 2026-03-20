@@ -644,19 +644,20 @@ function checkAnswer(){
 function answerPrime(choice){
   const q = quiz.questions[index];
 
-  // ○→y、×→n に変換
   const userYN = (choice === "○") ? "y" : "n";
-
   const isCorrect = userYN === q.answer;
 
   if(isCorrect){
     score++;
+    playCorrect();   // ←追加
+  }else{
+    playWrong();     // ←追加
   }
 
   results.push({
     question:q.question,
-    user:choice,        // 表示は○×のまま
-    correct:q.answer === "y" ? "○" : "×", // 正解も○×に変換
+    user:choice,
+    correct:q.answer === "y" ? "○" : "×",
     isCorrect
   });
 
