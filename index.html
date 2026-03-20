@@ -15,6 +15,7 @@
   --red:#dc2626;
   --bar-bg:#e5e7eb;
 }
+
 @media (prefers-color-scheme: dark){
   :root{
     --bg:#111827;
@@ -23,13 +24,18 @@
     --bar-bg:#374151;
   }
 }
+
+/* ===== 全体 ===== */
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
   background:var(--bg);
   color:var(--text);
   margin:0;
   padding:20px;
+  font-size:18px; /* ← 少し大きく */
 }
+
+/* ===== カード ===== */
 .card{
   background:var(--card);
   padding:20px;
@@ -37,41 +43,84 @@ body{
   border-radius:16px;
   box-shadow:0 8px 18px rgba(0,0,0,0.08);
 }
-.select-group{display:flex;gap:10px;flex-wrap:wrap;}
+
+/* ===== 選択UI ===== */
+.select-group{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
 .select-card{
   padding:10px 16px;
   border-radius:12px;
   cursor:pointer;
   background:rgba(0,0,0,.05);
   border:2px solid transparent;
+  font-size:16px;
 }
+
 .select-card.active{
   border:2px solid var(--primary);
   background:rgba(79,70,229,.1);
 }
+
+/* ===== 問題文 ===== */
+.card p:nth-of-type(2){
+  font-size:26px;
+  font-weight:bold;
+}
+
+/* ===== 入力欄 ===== */
+input[type="text"],input[type="number"]{
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  width:100%;
+  box-sizing:border-box;
+  font-size:18px;
+}
+
+/* ===== ボタン ===== */
 button{
-  padding:12px 20px;
+  padding:12px 18px;
   border:none;
   border-radius:12px;
   cursor:pointer;
   background:linear-gradient(90deg,#6366f1,#4f46e5);
   color:white;
-  font-size:16px;
+  font-size:17px;
 }
+
+/* サブボタン（終了） */
 .secondary-btn{
   background:transparent;
   border:2px solid var(--primary);
   color:var(--primary);
 }
-input[type="text"],input[type="number"]{
-  padding:10px;
-  border-radius:8px;
-  border:1px solid #ccc;
-  width:100%;
-  box-sizing:border-box;
+
+/* ボタンの位置調整 */
+.card button{
+  margin-top:10px;
 }
-.correct{color:var(--blue);font-weight:bold;}
-.wrong{color:var(--red);font-weight:bold;}
+
+/* 次へ → 終了 の間隔 */
+.card button + button{
+  margin-left:30px;
+}
+
+/* ===== 正誤表示 ===== */
+.correct{
+  color:var(--blue);
+  font-weight:bold;
+}
+
+.wrong{
+  color:var(--red);
+  font-weight:bold;
+}
+
+/* ===== バー ===== */
 .bar-container{
   width:100%;
   height:22px;
@@ -80,10 +129,20 @@ input[type="text"],input[type="number"]{
   overflow:hidden;
   margin:10px 0 20px 0;
 }
+
 .bar{
   height:100%;
   background:linear-gradient(90deg,#22c55e,#16a34a);
   transition:width .6s ease;
+}
+
+/* ===== 見出し ===== */
+h2{
+  font-size:26px;
+}
+
+h3{
+  font-size:20px;
 }
 </style>
 </head>
@@ -283,8 +342,6 @@ function showStart(){
     <div class="select-group">
       <div class="select-card active" data-mode="normal">順番</div>
       <div class="select-card" data-mode="random">ランダム</div>
-      <div class="select-card" data-mode="weak">苦手</div>
-      <div class="select-card" data-mode="memory">暗記</div>
     </div>
   </div>
 
@@ -459,7 +516,8 @@ function showInstant(isCorrect,correct){
     </h3>
     ${!isCorrect?`<p>正解：${correct}</p>`:''}
     <button class="enter-active" onclick="nextQuestion()">次へ</button>
-    <button class="secondary-btn" onclick="showResult()">終了</button>
+    <button class="secondary-btn"
+   style="margin-left:40px;"  onclick="showResult()">終了</button>
   </div>
   `;
 }
