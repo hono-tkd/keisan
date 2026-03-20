@@ -622,27 +622,41 @@ document.addEventListener("click",e=>{
 
 function checkAnswer(){
   const now = Date.now();
-  questionTimes.push(now);
+  const diff = (now - lastQuestionTime) / 1000;
+  questionTimes.push(diff);
+  lastQuestionTime = now;
 
-  const user=document.getElementById("userAnswer").value.trim();
-  const q=quiz.questions[index];
-  const correct=q.answer.trim();
+  const user = document.getElementById("userAnswer").value.trim();
+  const q = quiz.questions[index];
+  const correct = q.answer.trim();
   const isCorrect = normalizeAll(user) === normalizeAll(correct);
 
-  if(isCorrect){score++; q.stats.correct++;}
-  else{q.stats.wrong++;}
+  if(isCorrect){
+    score++;
+    q.stats.correct++;
+    playCorrect();
+  }else{
+    q.stats.wrong++;
+    playWrong();
+  }
 
   saveStats();
   saveStatus();
 
-  results.push({question:q.question,user:user||"(未解答)",correct,isCorrect});
+  results.push({
+    question:q.question,
+    user:user||"(未解答)",
+    correct,
+    isCorrect
+  });
 
-  if(isCorrect){
-　  score++;
- 　 playCorrect();  // ←ある
-　}else{
-　  playWrong();    // ←ある
-　}
+  // ★ これが超重要
+  if(judgeMode==="instant"){
+    showInstant(isCorrect, correct);
+  }else{
+    index++;
+    showQuestion();
+  }
 }
   
 function answerPrime(choice){
