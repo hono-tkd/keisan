@@ -529,24 +529,30 @@ function startQuiz(){
   // ===== 通常問題コピー =====
   quiz = { questions: [...originalQuiz.questions] };
 
-  // ===== 素数だけ特別処理 =====
+　// ===== 素数だけ特別処理 =====
   if(selectedStatus === "prime"){
-    const primeQuestions = [];
+  const primeQuestions = [];
+  const used = new Set();
 
-    for(let i = 0; i < 10; i++){
-      const num = Math.floor(Math.random() * 100) + 1;
-      if(num >= 10 && num % 2 === 0) continue;
+ 　while(primeQuestions.length < 10){
+  　 const num = Math.floor(Math.random() * 100) + 1;
 
-      primeQuestions.push({
-        question: `${num}は素数？`,
-        answer: isPrime(num) ? "y" : "n",
-        status: "prime"
-      });
-    }
+  　　  // 10以上の偶数はスキップ
+　　 　if(num >= 10 && num % 2 === 0) continue;
 
-    quiz.questions = primeQuestions;
+   　　 // 重複回避
+  　 　if(used.has(num)) continue;
+  　　 　used.add(num);
 
-  } else {
+  　　 　primeQuestions.push({
+  　　   　question: `${num}は素数？（y/n）`,
+  　　   　answer: isPrime(num) ? "y" : "n",
+  　　   　status: "prime"
+ 　　  　});
+　　 　}
+
+ 　　　quiz.questions = primeQuestions;
+  　} else {
 
     // ===== 通常フィルタ =====
     if(selectedStatus !== "all"){
