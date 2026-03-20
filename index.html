@@ -535,6 +535,7 @@ function startQuiz(){
 
     for(let i = 0; i < 10; i++){
       const num = Math.floor(Math.random() * 100) + 1;
+      if(num >= 10 && num % 2 === 0) continue;
 
       primeQuestions.push({
         question: `${num}は素数？`,
