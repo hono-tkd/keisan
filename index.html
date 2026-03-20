@@ -642,6 +642,10 @@ function checkAnswer(){
 }
   
 function answerPrime(choice){
+  const now = Date.now();
+  const diff = (now - lastQuestionTime) / 1000;
+  questionTimes.push(diff);
+  lastQuestionTime = now;
   const q = quiz.questions[index];
 
   const userYN = (choice === "○") ? "y" : "n";
