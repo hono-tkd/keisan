@@ -298,6 +298,7 @@ let currentMemoryQuestion=null;
 let enterLock=false;
 let memoryCounter=0;
 const MEMORY_INTERVAL=10;
+let lastQuestionTime = Date.now();
 
 const app=document.getElementById("app");
 
@@ -371,6 +372,9 @@ function playWrong(){
 
 /* スタート画面 */
 function showStart(){
+  startTime = Date.now();
+  lastQuestionTime = Date.now();  // ← 追加
+  questionTimes = [];
   index=0;score=0;results=[];memoryCounter=0;
 
   app.innerHTML=`
