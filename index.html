@@ -463,7 +463,9 @@ function generatePrimeQuiz(){
   const used = new Set();
 
   while(questions.length < 10){
-    const num = Math.floor(Math.random()*100) + 1;
+    let num = Math.floor(Math.random() * 100) + 1;
+
+    // 10以上の偶数はスキップ
     if(num >= 10 && num % 2 === 0) continue;
 
     if(used.has(num)) continue;
