@@ -420,7 +420,7 @@ function setupSelect(selector){
 function playCorrect(){
   const ctx = new (window.AudioContext || window.webkitAudioContext)();
 
-  const notes = [1320, 1100]; // 高→少し低（ピンポン感）
+  const notes = [1100, 880]; // 高→少し低（ピンポン感）
   
   notes.forEach((freq, i)=>{
     const osc = ctx.createOscillator();
