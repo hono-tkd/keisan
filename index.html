@@ -637,8 +637,12 @@ function checkAnswer(){
 
   results.push({question:q.question,user:user||"(未解答)",correct,isCorrect});
 
-  if(judgeMode==="instant") showInstant(isCorrect,correct);
-  else{index++;showQuestion();}
+  if(isCorrect){
+　  score++;
+ 　 playCorrect();  // ←ある
+　}else{
+　  playWrong();    // ←ある
+　}
 }
   
 function answerPrime(choice){
