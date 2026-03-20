@@ -417,6 +417,40 @@ function setupSelect(selector){
   });
 }
 
+function playCorrect(){
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  osc.type = "sine";
+  osc.frequency.value = 880; // 高い音
+
+  gain.gain.value = 0.2;
+
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+
+  osc.start();
+  osc.stop(ctx.currentTime + 0.15);
+}
+
+function playWrong(){
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  osc.type = "sawtooth";
+  osc.frequency.value = 220; // 低い音
+
+  gain.gain.value = 0.2;
+
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+
+  osc.start();
+  osc.stop(ctx.currentTime + 0.25);
+}
+
 /* クイズ開始 */
 function startQuiz(){
   startTime = Date.now();
@@ -496,8 +530,8 @@ function checkAnswer(){
   const correct=q.answer.trim();
   const isCorrect = normalizeAll(user) === normalizeAll(correct);
 
-  if(isCorrect){score++; q.stats.correct++;}
-  else{q.stats.wrong++;}
+  if(isCorrect){score++; q.stats.correct++; playCorrect();}
+  else{q.stats.wrong++; playWrong();}
 
   saveStats();
   saveStatus();
